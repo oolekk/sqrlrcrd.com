@@ -36,11 +36,18 @@ object DemoData extends Loggable{
 		}
 		logger.debug("foo updated")
 		
-
-		logger.debug("about to delete foo")
-		transaction{
-			MySqrlRcrd.table.deleteWhere(msr => msr.id === 1)}
+		logger.debug("about to do delete by key of foo - trigger callbacks")
+		transaction {
+			MySqrlRcrd.table.delete(1L)
+		}
 		logger.debug("foo deleted")
+		
+
+		logger.debug("about to delete bar - regular deleteWhere, no callbacks")
+		transaction{
+			MySqrlRcrd.table.deleteWhere(msr => msr.id === 2)}
+		logger.debug("bar deleted")
+
 
 	}
 
