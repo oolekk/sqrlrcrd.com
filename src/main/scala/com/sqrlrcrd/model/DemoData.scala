@@ -13,24 +13,34 @@ object DemoData extends Loggable{
      * */
      
      
-    logger.debug("about to insert foo & bar");
+    logger.debug("about to insert foo & bar")
 		transaction{MySchema.msrs.insert(prepareMySqrlRcrds())}
-		logger.debug("foo & bar inserted");
+		logger.debug("foo & bar inserted")
 		
-		logger.debug("about to insert baz");
+		logger.debug("about to insert baz")
 		val baz = MySqrlRcrd.createRecord name("baz")
 		transaction{MySqrlRcrd.table.insert(baz)}
 		logger.debug("baz inserted");
 		
-		logger.debug("about to update baz");
+		logger.debug("about to do partial update of baz")
 		transaction{
 			update(MySqrlRcrd.table)(msr => where(msr.name === "baz") set(msr.name := "Baz"))}
-		logger.debug("baz updated");
+		logger.debug("baz updated")
 		
-		logger.debug("about to delete foo");
+		logger.debug("about to do full update of foo")
+		transaction {
+			MySqrlRcrd.table.lookup(1L) map { rec =>
+				rec.name("Foo")
+				MySqrlRcrd.table.update(rec)
+			}
+		}
+		logger.debug("foo updated")
+		
+
+		logger.debug("about to delete foo")
 		transaction{
-			MySqrlRcrd.table.deleteWhere(msr => msr.name === "foo")}
-		logger.debug("foo deleted");
+			MySqrlRcrd.table.deleteWhere(msr => msr.id === 1)}
+		logger.debug("foo deleted")
 
 	}
 
