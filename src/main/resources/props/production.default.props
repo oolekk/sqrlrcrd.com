@@ -1,0 +1,40 @@
+## Properties in this file will be read when running in PRODUCTION mode
+
+## Properties in this file will be read when running in DEVELOPMENT mode
+
+#session wrapper db transaction logging
+#log.dbsession=true
+log.dbsession=false
+
+#which db driver should we use
+use.db=h2
+#use.db=mysql
+#use.db=postgres
+
+##db drop and recreate data?
+#db.schemify=false
+db.schemify=true
+
+##h2 web console accessible at localhost:8080/console
+
+##h2 db setup
+h2.db.driver=org.h2.Driver
+##in memory db
+h2.db.url=jdbc:h2:mem:sqrlrcrd_com;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=3000
+##in file db
+#h2.db.url=jdbc:h2:/home/olo/dev/dbdata/h2_sqrlrcrd_com;LOCK_TIMEOUT=3000
+##db credentials
+h2.db.user=test
+h2.db.pass=
+
+##mysql db setup
+mysql.db.driver=com.mysql.jdbc.Driver
+mysql.db.url=jdbc:mysql://localhost:3306/sqrlrcrd_com
+mysql.db.user=test
+mysql.db.pass=test
+
+##postgres db setup
+postgres.db.driver=org.postgresql.Driver
+postgres.db.url=jdbc:postgresql://localhost:5433/sqrlrcrd_com
+postgres.db.user=test
+postgres.db.pass=test
