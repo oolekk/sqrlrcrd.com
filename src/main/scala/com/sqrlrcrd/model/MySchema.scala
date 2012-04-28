@@ -19,7 +19,7 @@ object MySchema extends Schema with Loggable{
 		beforeDelete(msrs) call (MySqrlRcrd => logger.debug("beforeDelete")),
 		afterInsert(msrs) call (MySqrlRcrd => logger.debug("afterInsert")),
 		afterUpdate(msrs) call (MySqrlRcrd => logger.debug("afterUpdate")),
-		afterDelete(msrs) call (MySqrlRcrd => logger.debug("afterUpdate"))
+		afterDelete(msrs) call (MySqrlRcrd => logger.debug("afterDelete"))
 
 	)
 
