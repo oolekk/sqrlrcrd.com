@@ -37,8 +37,7 @@ object DemoData extends Loggable{
 	def prepareMySqrlRcrds(): List[MySqrlRcrd] = {
 		List(
 			MySqrlRcrd.createRecord.name("foo"),
-			MySqrlRcrd.createRecord.name("bar"),
-			MySqrlRcrd.createRecord.name("baz")
+			MySqrlRcrd.createRecord.name("bar")
 		)
 	}
 
