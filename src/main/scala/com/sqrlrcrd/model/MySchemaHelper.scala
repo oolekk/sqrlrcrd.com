@@ -1,21 +1,22 @@
 package com.sqrlrcrd.model
 
-import net.liftweb._
-import common._
-import org.squeryl.Schema
-import org.squeryl.Session
-import squerylrecord.SquerylRecord
-import squerylrecord.RecordTypeMode._
-import java.sql.{ DriverManager, Connection }
-import org.squeryl.internals.DatabaseAdapter;
+import java.sql.Connection
+
 import org.squeryl.adapters.H2Adapter
 import org.squeryl.adapters.MySQLAdapter
 import org.squeryl.adapters.PostgreSqlAdapter
-import net.liftweb.util.{ Props }
-import net.liftweb.db.StandardDBVendor
-// db connection pool provider
+import org.squeryl.internals.DatabaseAdapter
+import org.squeryl.Session
+
 import com.jolbox.bonecp.BoneCP
 import com.jolbox.bonecp.BoneCPConfig
+
+import net.liftweb.common.Loggable
+import net.liftweb.common.Logger
+import net.liftweb.http.LiftRulesMocker.toLiftRules
+import net.liftweb.squerylrecord.RecordTypeMode.transaction
+import net.liftweb.squerylrecord.SquerylRecord
+import net.liftweb.util.Props
 
 /*
  *  Helper object that initiates the db connection and creates the schema 
@@ -89,7 +90,7 @@ object MySchemaHelper extends Loggable {
 	class MyH2DBSettings extends DBSettings with Loggable {
 		override val dbAdapter = new H2Adapter;
 		override val dbDriver = Props.get("h2.db.driver").openOr("org.h2.Driver")
-		override val dbUrl = Props.get("h2.db.url").openOr("jdbc:h2:database/testXYZDB;FILE_LOCK=NO") 
+		override val dbUrl = Props.get("h2.db.url").openOr("jdbc:h2:database/testXYZDB;FILE_LOCK=NO")
 		override val dbUser = Props.get("h2.db.user").openOr("test")
 		override val dbPass = Props.get("h2.db.pass").openOr("")
 		logger.debug("MyH2DBSettings: seting adapter=H2Adapter driver="+dbDriver+" url="+dbUrl+" user="+dbUser+" pw="+dbPass)

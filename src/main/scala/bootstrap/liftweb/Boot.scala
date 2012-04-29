@@ -1,30 +1,24 @@
 package bootstrap.liftweb
 
+import com.sqrlrcrd.model.MySchemaHelper
 
-import com.sqrlrcrd.model._
-import net.liftweb.common.Box.box2Option
-import net.liftweb.common.Box.option2Box
+import javax.servlet.FilterConfig
 import net.liftweb.common.Empty
 import net.liftweb.common.Full
 import net.liftweb.common.Loggable
 import net.liftweb.http.LiftRulesMocker.toLiftRules
 import net.liftweb.http.provider.HTTPRequest
+import net.liftweb.http.LiftFilter
 import net.liftweb.http.LiftRules
 import net.liftweb.http.NotFoundAsTemplate
 import net.liftweb.http.NoticeType
 import net.liftweb.http.OnDiskFileParamHolder
 import net.liftweb.http.ParsePath
-import net.liftweb.http.RedirectResponse
-import net.liftweb.http.OkResponse
 import net.liftweb.http.Req
-import net.liftweb.http.PostRequest
 import net.liftweb.http.S
 import net.liftweb.http.XHtmlInHtml5OutProperties
 import net.liftweb.sitemap.Loc.LinkText.strToLinkText
-import net.liftweb.sitemap.Loc.EarlyResponse
-import net.liftweb.sitemap.Loc.Hidden
 import net.liftweb.sitemap.Loc.Link
-import net.liftweb.sitemap.Loc.LocGroup
 import net.liftweb.sitemap.Loc
 import net.liftweb.sitemap.Menu
 import net.liftweb.sitemap.SiteMap
@@ -34,12 +28,6 @@ import net.liftweb.util.Vendor.valToVender
 import net.liftweb.util.LoanWrapper
 import net.liftweb.util.NamedPF
 import net.liftweb.util.Props
-
-import javax.naming.Context
-import javax.naming.InitialContext
-import _root_.net.liftweb.http.LiftFilter
-import _root_.javax.servlet._
-import _root_.javax.servlet.http._
 
 class RunModeLiftFilter extends LiftFilter {
 	override def init(config: FilterConfig) {
@@ -88,18 +76,20 @@ class Boot extends Loggable {
 				NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
 		})
 
-		/* vvvvvv DB CONNECTION AND TRANSACTION WRAPPING vvvvvv */
 		
+		
+		/* vvvvvv DB CONNECTION AND TRANSACTION WRAPPING vvvvvv */
+
 		/* choose database type */
-		val dbtype = Props.get("use.db","h2");
+		val dbtype = Props.get("use.db", "h2");
 		if (dbtype == "h2") MySchemaHelper.initSquerylRecordWithH2DB
 		else if (dbtype == "mysql") MySchemaHelper.initSquerylRecordWithMySqlDB
 		else if (dbtype == "postgres") MySchemaHelper.initSquerylRecordWithPostgresDB
-		
+
 		// drop & create schema (to be used on the first run, or to purge db)
 		if (Props.getBool("db.schemify", false)) { MySchemaHelper.dropAndCreateSchema }
 		// only touch db to initialize connection pool
-		else {	MySchemaHelper.touchDB }
+		else { MySchemaHelper.touchDB }
 
 		Props.mode match {
 
@@ -129,14 +119,17 @@ class Boot extends Loggable {
 		})
 		/* ^^^^^^ DB CONNECTION AND TRANSACTION WRAPPING ^^^^^^ */
 
+		
+		
 		/* vvvvvv SITEMAP STUFF vvvvvv */
-		/* uncomment to disable uniqness check for SiteMap */
+		
+		/* uncomment to disable uniqueness check for SiteMap */
 		SiteMap.enforceUniqueLinks = false
 
 		/* build SiteMap entries */
 		val staticMenu = Menu(Loc("Static", Link(List("static"), true, "/static/index"), "Static"))
 
-		val indexMenu = Menu(Loc("home", Link(List("index"), false, "/index"), "HOME" ))
+		val indexMenu = Menu(Loc("home", Link(List("index"), false, "/index"), "HOME"))
 
 		val entries = List[Menu](
 			indexMenu,
@@ -145,6 +138,7 @@ class Boot extends Loggable {
 
 		/* Set SiteMap. If you don't want access control for each page, comment this out */
 		LiftRules.setSiteMap(SiteMap(entries: _*))
+		
 		/* ^^^^^^ SITEMAP STUFF ^^^^^^ */
 
 	}
