@@ -20,7 +20,7 @@ class MySqrlRcrd extends Record[MySqrlRcrd] with KeyedRecord[Long] {
 
 object MySqrlRcrd extends MySqrlRcrd with MetaRecord[MySqrlRcrd] {
 
-	def table = MySchema.msrs
+	def table = MySchema.mySqrlrRcrds
 
 	def idFromString(in: String) = in.toLong
 
