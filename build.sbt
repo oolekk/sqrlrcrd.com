@@ -13,6 +13,9 @@ scalacOptions ++= Seq("-unchecked", "-deprecation")
 
 scanDirectories in Compile := Nil
 
+/* read jetty settings from this file */
+env in Compile := Some(file("jetty-env.xml") asFile)
+
 // you can also add multiple repositories at the same time
 resolvers ++= Seq(
   "Default maven repository" at "http://repo1.maven.org/maven2/",
