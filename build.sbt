@@ -13,6 +13,10 @@ scalacOptions ++= Seq("-unchecked", "-deprecation")
 
 scanDirectories in Compile := Nil
 
+//uncomment & adjust to use alternate port number for serving webapp with jetty
+//port in container.Configuration := 9090
+
+
 /* read jetty settings from this file */
 env in Compile := Some(file("jetty-env.xml") asFile)
 
@@ -50,10 +54,10 @@ libraryDependencies ++= {
 
 // Customize any further dependencies as desired
 libraryDependencies ++= Seq(
+		"javax.servlet" % "servlet-api" % "2.5" % "provided",
     "org.eclipse.jetty" % "jetty-webapp" % "8.1.0.v20120127" % "test, container", // For Jetty 8
     "org.eclipse.jetty" % "jetty-plus" % "8.1.0.v20120127" % "container", // For Jetty Config
-    "javax.servlet" % "servlet-api" % "2.5" % "provided",
-    "junit" % "junit" % "4.8" % "test", // For JUnit 4 testing
+    "junit" % "junit" % "4.8" % "test", // For JUnit4
     //"org.scala-tools.testing" %% "specs" % "1.6.9" % "test",
     "org.specs2" %% "specs2" % "1.9" % "test",
     "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test"

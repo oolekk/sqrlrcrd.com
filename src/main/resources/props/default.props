@@ -17,9 +17,9 @@ db.schemify=true
 
 ##h2 db setup
 h2.db.driver=org.h2.Driver
-##in memory db
+##in memory db - will cease to exist when webapp is exited
 h2.db.url=jdbc:h2:mem:sqrlrcrd_com;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=3000
-##in file db
+##in file db adjust it to use the file of your choice - will survive
 #h2.db.url=jdbc:h2:/home/olo/dev/dbdata/h2_sqrlrcrd_com;LOCK_TIMEOUT=3000
 ##db credentials
 h2.db.user=test
