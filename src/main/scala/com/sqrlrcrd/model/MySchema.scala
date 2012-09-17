@@ -12,13 +12,13 @@ object MySchema extends Schema with Loggable {
   /* lifecycle callbacks */
   override def callbacks = Seq(
 
-    beforeUpdate(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("beforeUpdate")),
-    beforeInsert(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("beforeInsert")),
-    beforeDelete(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("beforeDelete")),
+    beforeUpdate(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("beforeUpdate")),
+    beforeInsert(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("beforeInsert")),
+    beforeDelete(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("beforeDelete")),
 
-    afterInsert(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("afterInsert")),
-    afterUpdate(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("afterUpdate")),
-    afterDelete(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.debug("afterDelete"))
+    afterInsert(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("afterInsert")),
+    afterUpdate(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("afterUpdate")),
+    afterDelete(mySqrlrRcrds) call (MySqrlRcrd ⇒ logger.info("afterDelete"))
 
   )
 

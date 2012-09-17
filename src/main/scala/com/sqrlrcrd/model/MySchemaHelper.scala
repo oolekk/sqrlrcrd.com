@@ -63,7 +63,7 @@ object MySchemaHelper extends Loggable {
   def isUsingH2Driver: Boolean = usingH2Driver
   /*The actual init method */
   private def initSquerylRecord(db: DBSettings) {
-    logger.debug("initSquerylRecord with DBSettings: driver=" + db.dbDriver + " url=" + db.dbUrl + " user=" + db.dbUser + " pw=" + db.dbPass)
+    logger.info("initSquerylRecord with DBSettings: driver=" + db.dbDriver + " url=" + db.dbUrl + " user=" + db.dbUser + " pw=" + db.dbPass)
     SquerylRecord.initWithSquerylSession {
       Class.forName(db.dbDriver)
       val session = Session.create(
@@ -93,7 +93,7 @@ object MySchemaHelper extends Loggable {
     override val dbUrl = Props.get("h2.db.url").openOr("jdbc:h2:database/testXYZDB;FILE_LOCK=NO")
     override val dbUser = Props.get("h2.db.user").openOr("test")
     override val dbPass = Props.get("h2.db.pass").openOr("")
-    logger.debug("MyH2DBSettings: seting adapter=H2Adapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
+    logger.info("MyH2DBSettings: seting adapter=H2Adapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
   }
 
   class MyMySqlDBSettings extends DBSettings with Loggable {
@@ -102,7 +102,7 @@ object MySchemaHelper extends Loggable {
     override val dbUrl = Props.get("mysql.db.url").openOr("") //drop to in-memory h2
     override val dbUser = Props.get("mysql.db.user").openOr("test")
     override val dbPass = Props.get("mysql.db.pass").openOr("test")
-    logger.debug("MyMySqlDBSettings: seting adapter=MySQLAdapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
+    logger.info("MyMySqlDBSettings: seting adapter=MySQLAdapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
   }
 
   class MyPostgresSettings extends DBSettings with Loggable {
@@ -111,7 +111,7 @@ object MySchemaHelper extends Loggable {
     override val dbUrl = Props.get("postgres.db.url").openOr("")
     override val dbUser = Props.get("postgres.db.user").openOr("test")
     override val dbPass = Props.get("postgres.db.pass").openOr("test")
-    logger.debug("MyPostgresSettings: seting adapter=PostgreSqlAdapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
+    logger.info("MyPostgresSettings: seting adapter=PostgreSqlAdapter driver=" + dbDriver + " url=" + dbUrl + " user=" + dbUser + " pw=" + dbPass)
   }
 
   /* database connection pooling provider - we are using BoneCP */
