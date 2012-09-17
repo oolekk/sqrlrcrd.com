@@ -9,19 +9,19 @@ import org.squeryl.annotations.Column
 
 class MySqrlRcrd extends Record[MySqrlRcrd] with KeyedRecord[Long] {
 
-	def meta = MySqrlRcrd
+  def meta = MySqrlRcrd
 
-	@Column(name = "id")
-	val idField = new LongField(this)
+  @Column(name = "id")
+  val idField = new LongField(this)
 
-	val name = new StringField(this, "")
+  val name = new StringField(this, "")
 
 }
 
 object MySqrlRcrd extends MySqrlRcrd with MetaRecord[MySqrlRcrd] {
 
-	def table = MySchema.mySqrlrRcrds
+  def table = MySchema.mySqrlrRcrds
 
-	def idFromString(in: String) = in.toLong
+  def idFromString(in: String) = in.toLong
 
 }

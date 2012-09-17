@@ -1,6 +1,8 @@
-# Properties in this file will be read when running in test mode
+## Properties in this file will be read when running in TEST mode
 
-## Properties in this file will be read when running in DEVELOPMENT mode
+#used by self serving embedded jetty jar - /tmp is not a good choice
+#as it gets cleaned from time to time, use something else in production
+webtmpdir=/tmp
 
 #session wrapper db transaction logging
 #log.dbsession=true
@@ -35,6 +37,6 @@ mysql.db.pass=test
 
 ##postgres db setup
 postgres.db.driver=org.postgresql.Driver
-postgres.db.url=jdbc:postgresql://localhost:5433/sqrlrcrd_com
+postgres.db.url=jdbc:postgresql://localhost:5432/sqrlrcrd_com
 postgres.db.user=test
 postgres.db.pass=test

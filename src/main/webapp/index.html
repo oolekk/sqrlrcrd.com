@@ -1,9 +1,35 @@
 <html>
 <head>
+<script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
+<style type="text/css">
+/* <![CDATA[ */
+body{font-family:'monospace';}
+/* ]]> */
+</style>
 </head>
 <body>
-If running h2 database, you can go to <a href="http://localhost:8080/console">http://localhost:8080/console</a> <br/>
+<p>If running from sbt, h2 database console will be here <a href="http://localhost:8080/console">http://localhost:8080/console</a> <br/>
 to see db web console. JDBC URL must be adjusted to access the database<br/>
-jdbc:h2:mem:sqrlrcrd_com
+jdbc:h2:mem:sqrlrcrd_com<br/><br/>
+This app inserts/updates/deletes some simple records in the db.<br/>
+Read the code (there are only few files) and play with it to get the idea.<br/>
+Also there is a kind of up-to-date dependency collection in build.sbt<br/>
+With latest jetty, logging with ch.qos.logback etc ...
+</p>
+<p>Apart from showing sample setup of squeryl-record with different database<br/>
+engines, this simple app includes a working configuration for building self-serving<br/>
+jar with embedded jetty. It is a very lightweight and flexible way to easily <br/>
+do deployment on any computer that has java. To create the jar, in sbt run:<br/>
+assembly<br/><br/>
+Then cd to target dir, and run:<br/>
+java -jar sqrlrcrd.com-lift-assembly-1.0.jar<br/><br/>
+Your server is running. Note, you can bring this jar on your usb stick and make<br/>
+any computer with java serve it. You don't need to install anything else. It is<br/>
+self contained. Access this app on port defined in lift.bootstrap.Start.scala 9090<br/>
+Close sbt, and this service will still work -> it can be used in production.<br/>
+</p>
+<p>Db connection management is based on Peter Petersson's example<br/>
+Embedded jetty configuration done mostly by me and Diego Medina <br/>
+</p>
 </body>
 </html>
