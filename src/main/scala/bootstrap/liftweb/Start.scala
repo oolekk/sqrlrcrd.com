@@ -10,7 +10,9 @@ object Start {
 
   def main(args: Array[String]): Unit = {
     /* choose different port for each of your webapps deployed on single server
-     * you may use it in nginx proxy-pass directive, to target virtual hosts */
+     * you may use it in nginx proxy-pass directive, to target virtual hosts
+     * line below will attempt to read embedded.jetty.prot property or use
+     * supplied default 9090*/
     val port = Props.getInt("embedded.jetty.port", 9090)
     val server = new Server(port)
     val webctx = new WebAppContext
@@ -30,10 +32,11 @@ object Start {
      * */
 
     webctx.setContextPath("/")
-    /* optionally extract embedded webapp to specific temporary location and serve from there
-     * in fact, /tmp is not a good place, because it gets cleaned up from time to time so
-     * make sure to specify some nice location such as /var/www/sqrlrcrd.com */
-    val webtmpdir = Props.get("webtmpdir", "/tmp")
+    /* optionally extract embedded webapp to specific temporary location and serve
+     * from there. In fact /tmp is not a good place, because it gets cleaned up from
+     * time to time so you need to specify some location such as /var/www/sqrlrcrd.com
+     * for anything that should last */
+    val webtmpdir = Props.get("web.tmpdir", "/tmp")
     webctx.setTempDirectory(new File(webtmpdir))
 
     val logger = new org.eclipse.jetty.util.log.Slf4jLog

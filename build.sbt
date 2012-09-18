@@ -49,7 +49,8 @@ libraryDependencies ++= {
 	//"net.liftweb" %% "lift-testkit" % liftVersion,
 	"net.liftweb" %% "lift-record" % liftVersion,
     //"net.liftweb" %% "lift-squeryl-record" % liftVersion, //standard
-    "net.liftweb" %% "lift-squeryl-record" % liftVersion exclude("org.squeryl","squeryl"), //latest
+    //latest - if got problems with snapshot, comment out next 2 lines and use line above instead
+    "net.liftweb" %% "lift-squeryl-record" % liftVersion exclude("org.squeryl","squeryl"), 
     "org.squeryl" %% "squeryl" % "0.9.5-SNAPSHOT",
     "com.h2database" % "h2" % "1.3.168",
     "mysql" % "mysql-connector-java" % "5.1.19",
@@ -63,15 +64,16 @@ libraryDependencies ++= {
 libraryDependencies ++= Seq(
 		// -- jetty related --
 	"org.eclipse.jetty" % "jetty-webapp" % "8.1.7.v20120910" % "container,compile",
-    "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,compile" artifacts Artifact("javax.servlet", "jar", "jar"),
+    "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,compile" artifacts Artifact("javax.servlet", "jar", "jar")
+    // dependencies below may come handy, but not required in this basic setup
 		// -- testing frameworks --
-	"org.specs2" %% "specs2" % "1.11" % "test",
-	"org.scala-tools.testing" %% "scalacheck" % "1.9" % "test",
+	// "org.specs2" %% "specs2" % "1.11" % "test",
+	// "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test",
 		// date-time alternative
-	"org.joda" % "joda-convert" % "1.2" % "provided", //required compile-time dependency
-	"joda-time" % "joda-time" % "2.1" % "compile", //time handling with joda-time
+	// "org.joda" % "joda-convert" % "1.2" % "provided", //required compile-time dependency
+	// "joda-time" % "joda-time" % "2.1" % "compile", //time handling with joda-time
 		// -- img processing --
-	"org.im4java" % "im4java" % "1.2.0"
+	// "org.im4java" % "im4java" % "1.2.0"
 )
 
 /* streamlined generation of self serving embedded jetty jar - thx Diego */
@@ -88,11 +90,11 @@ resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map
 }
 
 // latest jetty has same named about.html files in its artifacts
-// which needs to be dumped for assembly plugin, to do its work
-// - to create self serving jar which can be run without installing
+// top location - we need to resolve name conflict while merging
+// single jar with assembly plugin. assembly + jetty lets us
+// create self serving jar which can be run without installing
 // a standalone server wih: java -jar my-app.assembly-1.0.jar
-// it is a very flexible and light-weight way of serving your app
-// ok, so to sanitize conflict in otherwise not needed about.html:
+// it is a very flexible and light-weight way to serve your app
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
     case "about.html" => MergeStrategy.rename
@@ -103,3 +105,4 @@ mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
 // MAY NEED SOME DAY
 //"com.codecommit" %% "anti-xml" % "0.4-SNAPSHOT"
 //"org.mindrot" % "jbcrypt" % "0.3m"
+//"org.im4java" % "im4java" % "1.2.0"
