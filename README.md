@@ -20,10 +20,10 @@ Then cd to target dir and run:
 
     java -jar sqrlrcrd.com-lift-assembly-1.0.jar
     
-Your server is running. Note, you can bring this jar on your usb stick and make
-any computer with java serve it. You don't need to install anything else,
-except from maybe a database :) but you can use h2 in-file db, to make it
-self contained. Access this app on port defined in
+Your server will start from the jar. Note, you can bring this jar on your
+usb stick and make any computer with java serve it. You don't need to
+install anything else, except from maybe a database :) but you can use h2
+in-file db, to make it self contained. Access this app on port defined in
 
     lift.bootstrap.Start.scala
     
@@ -36,7 +36,6 @@ JDBC URL must be adjusted to access the database
 jdbc:h2:mem:sqrlrcrd_com  
 
 Also there is a kind of up-to-date dependency collection in build.sbt
-With latest jetty, logging with ch.qos.logback etc ...
 
 ### Credits
 
