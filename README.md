@@ -38,8 +38,11 @@ jdbc:h2:mem:sqrlrcrd_com
 Also there is a kind of up-to-date dependency collection in build.sbt
 With latest jetty, logging with ch.qos.logback etc ...
 
-* Database connection setup is based on code from Peter Petersson's
+### Credits
+
+Database connection setup is based on code from Peter Petersson's
 [example](https://github.com/karma4u101/Basic-SquerylRecord-User-Setup)
 with some minor adjustments.
-* Embedded jetty configuration assembled by me with big help from Diego Medina
+
+Embedded jetty configuration assembled by me with big help from Diego Medina
 and Lift mailing list participants.
