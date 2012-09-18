@@ -1,7 +1,5 @@
 package com.sqrlrcrd.model
 
-import com.sqrlrcrd.model.MySqrlRcrd
-
 import net.liftweb.common.Loggable
 import net.liftweb.squerylrecord.RecordTypeMode._
 

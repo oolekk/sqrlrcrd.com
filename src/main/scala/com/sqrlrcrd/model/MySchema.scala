@@ -1,7 +1,6 @@
 package com.sqrlrcrd.model
 
 import org.squeryl.Schema
-import com.sqrlrcrd.model.MySqrlRcrd
 
 import net.liftweb.common.Loggable
 

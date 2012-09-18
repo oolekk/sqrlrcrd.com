@@ -56,7 +56,7 @@ class Boot extends Loggable {
     /* set max per-file upload size */
     LiftRules.maxMimeFileSize = 1024 * 1024 * 32;
     /* use jQuery framework */
-    LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQuery14Artifacts
+    LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQueryArtifacts
     /* Show the spinny image when an Ajax call starts */
     LiftRules.ajaxStart = Full(() ⇒ LiftRules.jsArtifacts.show("ajax-loader").cmd)
     /* Make the spinny image go away when it ends */
@@ -120,7 +120,7 @@ class Boot extends Loggable {
     /* vvvvvv SITEMAP STUFF vvvvvv */
 
     /* uncomment to disable uniqueness check for SiteMap */
-    SiteMap.enforceUniqueLinks = false
+    // SiteMap.enforceUniqueLinks = false
 
     /* build SiteMap entries */
     val staticMenu = Menu(Loc("Static", Link(List("static"), true, "/static/index"), "Static"))
