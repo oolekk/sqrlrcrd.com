@@ -16,7 +16,7 @@ jar, in sbt run:
 
     assembly
     
-Then cd to target dir, and run:
+Then cd to target dir and run:
 
     java -jar sqrlrcrd.com-lift-assembly-1.0.jar
     
@@ -28,7 +28,7 @@ self contained. Access this app on port defined in
     lift.bootstrap.Start.scala
     
 Which is set to 9090 in this example. You can close sbt, and this service
-will still work -> it can be used in production.
+will still work -> with some adjustments this can be used in production.
 
 When running from sbt, h2 database console will be here  
 http://localhost:8080/console  
