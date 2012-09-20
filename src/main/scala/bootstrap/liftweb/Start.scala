@@ -9,11 +9,28 @@ import net.liftweb.common._
 object Start {
 
   def main(args: Array[String]): Unit = {
+    
+    /*
+     * When running executable jar logging settings will always be read from 
+     * resources/logback.xml, it doesn't make difference which run
+     * mode you set up either in this file or in Boot.scala
+     * Line below will decide which props file will be read by your app when
+     * starting the executable jar. It goes like this:
+     * "run.mode" "development" -> resources/props/default.props.xml
+     * "run.mode" "production" -> resources/props/production.default.props.xml
+     * ... perhaps some other modes can be used such as staging etc.
+     * IMPORTANT, apart from deciding which props file to read, this does
+     * not really change the mode in which lift will work internally, so
+     * does not influence for example template caching strategy. To set that
+     * change same thing but in Boot.scala.
+     */
+    System.setProperty("run.mode","production")
+    
     /* choose different port for each of your webapps deployed on single server
      * you may use it in nginx proxy-pass directive, to target virtual hosts
      * line below will attempt to read embedded.jetty.prot property or use
      * supplied default 9090*/
-    val port = Props.getInt("embedded.jetty.port", 9090)
+    val port = Props.getInt("jetty.emb.port", 9090)
     val server = new Server(port)
     val webctx = new WebAppContext
     /* use embeded webapp dir as source of the web content -> webapp
@@ -36,12 +53,11 @@ object Start {
      * from there. In fact /tmp is not a good place, because it gets cleaned up from
      * time to time so you need to specify some location such as /var/www/sqrlrcrd.com
      * for anything that should last */
-    val webtmpdir = Props.get("web.tmpdir", "/tmp")
-    webctx.setTempDirectory(new File(webtmpdir))
-
-    val logger = new org.eclipse.jetty.util.log.Slf4jLog
-    logger.setDebugEnabled(false)
-    webctx.setLogger(logger)
+    val shouldExtract = Props.getBool("jetty.emb.extract", false)
+    if(shouldExtract){
+      val webtmpdir = Props.get("jetty.emb.tmpdir", "/tmp")
+      webctx.setTempDirectory(new File(webtmpdir))
+    }
 
     server.setHandler(webctx)
     server.start

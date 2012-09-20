@@ -31,6 +31,53 @@ import net.liftweb.util.Props
 
 class RunModeLiftFilter extends LiftFilter {
   override def init(config: FilterConfig) {
+    /*
+     * When running your app from sbt or normal war (but not from executable jar)
+     * only mode setting from Boot.scala is taken into consideration, to decide
+     * run.mode and which props files to read.
+     * 1) Run mode setting from Boot.scala will decide which props file to read:
+     * "run.mode" "development" -> resources/props/default.props.xml
+     * "run.mode" "production" -> resources/props/production.default.props.xml
+     * ... some other possible run modes (staging, test)
+     * 2) Run mode setting from Boot.scala will decide which config
+     * file for logging to read:
+     * "run.mode" "development" -> resources/props/default.logback.xml
+     * "run.mode" "production" -> resources/props/production.default.logback.xml
+     * .... some other possible run modes (staging, test)
+     * 3) Run mode setting from Boot.scala will decide which mode of operation
+     * will lift use, for example:
+     * "run.mode" "development" -> watch for templates changes and reload them
+     * "run.mode" "production" -> cache templates, ignore changes
+     * 
+     * It's a quite different story when your app is run from executable jar.
+     * Then the situation looks like this:
+     * 1) Run mode setting from Start.scala will decide which props file to read:
+     * "run.mode" "development" -> resources/props/default.props.xml
+     * "run.mode" "production" -> resources/props/production.default.props.xml
+     * 2) Completely ignored are the logging settings from 
+     * "run.mode" "development" -> resources/props/default.logback.xml
+     * "run.mode" "production" -> resources/props/production.default.logback.xml
+     * .... some other possible run modes (staging, test)
+     * instead resources/logback.xml file is read to determine logging behaviour,
+     * no matter what run mode is chosen either in Boot or Start
+     * 3) IMPORTANT AND A BIT SURPRISING - this stays unaffected by run mode
+     * setting specified in Start 
+     * Run mode setting from Boot.scala will decide which mode of operation
+     * will lift use, for example:
+     * "run.mode" "development" -> watch for templates changes and reload them
+     * "run.mode" "production" -> cache templates, ignore changes
+     * 
+     * So settings in Boot.scala and Start.scala do not have to match, and do
+     * different things. When jetty is run from sbt, or when your app is run
+     * from standard war only settings in this file have any meaning. But when
+     * running an executable jar, settings from both Boot.scala and Start.scala
+     * are important. You could possibly set run mode to development in Start.scala,
+     * but to production in Boot.scala and have situation, where props are read
+     * from resources/props/deafault.props.xml, logging settings are read from
+     * resources/logback.xml, and your app still runs in production mode internally
+     * and caches templates. In production you will most probably want to set
+     * run mode to production both in Boot.scala and in Start.scala
+     */
     System.setProperty("run.mode", "development")
     super.init(config)
   }

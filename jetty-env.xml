@@ -1,3 +1,0 @@
-<Configure class="org.eclipse.jetty.webapp.WebAppContext">
-	<Set name="tempDirectory">/tmp</Set>
-</Configure>
