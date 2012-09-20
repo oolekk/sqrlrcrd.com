@@ -27,8 +27,8 @@ object Start {
     /* set logback config file appropriately */
     System.setProperty("logback.configurationFile", logbackConfFile)
 
-    /* choose different port for each of your webapps deployed on single server
-     * you may use it in nginx proxy-pass directive, to target virtual hosts
+    /* choose different port for each of your webapps deployed on single machine
+     * you may then use it in nginx proxy-pass directive, to target virtual hosts
      * line below will attempt to read jetty.emb.port property from
      * props file or use supplied default 9090 */
     val port = Props.getInt("jetty.emb.port", 9090)
