@@ -9,11 +9,23 @@ import net.liftweb.util.Props
 object Start {
 
   def main(args: Array[String]): Unit = {
-    
+
     /* 
      * Use: java -Drun.mode=production -jar myjarname.jar
      * to change run.mode, which by default is development 
      */
+    
+    /* Calculate run.mode dependent path to logback configuration file.
+     * Use same naming scheme as for props files.  */
+    val logbackConfFile = {
+      val propsDir = "props"
+      val fileNameTail = "default.logback.xml"
+      val mode = System.getProperty("run.mode")
+      if (mode != null) propsDir + "/" + mode + "." + fileNameTail
+      else propsDir + "/" + fileNameTail
+    }
+    /* set logback config file appropriately */
+    System.setProperty("logback.configurationFile", logbackConfFile)
 
     /* choose different port for each of your webapps deployed on single server
      * you may use it in nginx proxy-pass directive, to target virtual hosts
@@ -31,7 +43,7 @@ object Start {
      * so we don't have do webctx.setDescriptor */
     val webappDirInsideJar = webctx.getClass.getClassLoader.getResource("webapp").toExternalForm
     webctx.setWar(webappDirInsideJar)
-    
+
     /* might use use external pre-existing webapp dir instead of referencing
      * the embedded webapp dir but it's not very useful. why would we put
      * webapp inside if we end up using some other external directory. I put it
@@ -44,7 +56,7 @@ object Start {
      * time to time so you need to specify some location such as /var/www/sqrlrcrd.com
      * for anything that should last */
     val shouldExtract = Props.getBool("jetty.emb.extract", false)
-    if(shouldExtract){
+    if (shouldExtract) {
       val webtmpdir = Props.get("jetty.emb.tmpdir", "/tmp")
       webctx.setTempDirectory(new File(webtmpdir))
     }
