@@ -11,12 +11,12 @@ object Start {
   def main(args: Array[String]): Unit = {
 
     /* 
-     * Use: java -Drun.mode=production -jar myjarname.jar
-     * to change run.mode, which by default is development 
+     * adjust run.mode when starting the jar like so:
+     * java -Drun.mode=production -jar myjarname.jar
      */
-    
-    /* Calculate run.mode dependent path to logback configuration file.
-     * Use same naming scheme as for props files.  */
+
+    /* calculate run.mode dependent path to logback configuration file
+     * use same naming scheme as for props files  */
     val logbackConfFile = {
       val propsDir = "props"
       val fileNameTail = "default.logback.xml"
