@@ -1,9 +1,5 @@
 ## Properties in this file will be read when running in TEST mode
 
-#used by self serving embedded jetty jar - /tmp is not a good choice
-#as it gets cleaned from time to time, use something else in production
-webtmpdir=/tmp
-
 #session wrapper db transaction logging
 #log.dbsession=true
 log.dbsession=false

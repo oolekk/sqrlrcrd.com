@@ -2,7 +2,7 @@
 
 #used by self serving embedded jetty jar - /tmp is not a good choice
 #as it gets cleaned from time to time, so using something else in production
-webtmpdir=/var/www/sqrlrcrd.com
+jetty.emb.tmpdir=/var/www/sqrlrcrd.com
 
 #session wrapper db transaction logging
 #log.dbsession=true

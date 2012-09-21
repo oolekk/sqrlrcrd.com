@@ -39,7 +39,7 @@ resolvers ++= Seq(
 // checksums := Nil
 
 libraryDependencies ++= {
-  val liftVersion = "2.5-SNAPSHOT" // Put the current/latest lift version here
+  val liftVersion = "2.5-M1" // Put the current/latest lift version here
   Seq(
 	"net.liftweb" %% "lift-webkit" % liftVersion,
 	//"net.liftweb" %% "lift-json" % liftVersion
@@ -56,7 +56,8 @@ libraryDependencies ++= {
     "mysql" % "mysql-connector-java" % "5.1.19",
     "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
     "ch.qos.logback" % "logback-classic" % "1.0.6", // Logging
-    "com.jolbox" % "bonecp" % "0.7.1.RELEASE" // connection pooling 
+    "com.jolbox" % "bonecp" % "0.7.1.RELEASE", // connection pooling
+    "net.liftmodules" %% "lift-jquery-module" % (liftVersion+"-1.0")
     )
 }
 

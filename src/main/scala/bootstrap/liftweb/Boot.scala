@@ -26,6 +26,7 @@ import net.liftweb.util.Vendor.valToVender
 import net.liftweb.util.LoanWrapper
 import net.liftweb.util.NamedPF
 import net.liftweb.util.Props
+import net.liftmodules.JQueryModule
 
 class Boot extends Loggable {
 
@@ -48,6 +49,8 @@ class Boot extends Loggable {
     LiftRules.maxMimeFileSize = 1024 * 1024 * 32;
     /* use jQuery framework */
     LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQueryArtifacts
+    JQueryModule.InitParam.JQuery=JQueryModule.JQuery172
+    JQueryModule.init()
     /* Show the spinny image when an Ajax call starts */
     LiftRules.ajaxStart = Full(() ⇒ LiftRules.jsArtifacts.show("ajax-loader").cmd)
     /* Make the spinny image go away when it ends */
