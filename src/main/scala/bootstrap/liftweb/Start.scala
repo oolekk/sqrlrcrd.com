@@ -29,9 +29,20 @@ object Start {
 
     /* choose different port for each of your webapps deployed on single machine
      * you may then use it in nginx proxy-pass directive, to target virtual hosts
-     * line below will attempt to read jetty.emb.port property from
-     * props file or use supplied default 9090 */
-    val port = Props.getInt("jetty.emb.port", 9090)
+     * line below will attempt to read jetty.emb.port property from props file or
+     * use supplied default 9090. Alternatively, if commandline numeric
+     * parameter is given, it will be used for the port number.  */
+    val portFromCommandLine: Option[Int] = {
+      try {
+        val arg0 = args(0)
+        if (arg0.toInt > 0 && arg0.toInt < 65536)
+          Some(arg0.toInt) else None
+      }
+      catch { case _ ⇒ None }
+    }
+
+    val port = portFromCommandLine.getOrElse(Props.getInt("jetty.emb.port", 9090))
+    println("USING PORT: " + port)
     val server = new Server(port)
     val webctx = new WebAppContext
     /* use embedded webapp dir as source of the web content
