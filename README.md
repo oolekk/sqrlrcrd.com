@@ -24,7 +24,7 @@ You can make it run in production mode like so:
     
     java -Drun.mode=production -jar sqrlrcrd.com-lift-assembly-1.0.jar
     
-You can give custom port number to be used by jetty like so:
+You can give custom port number to be used by jetty:
     
     java -jar sqrlrcrd.com-lift-assembly-1.0.jar 8090
      
@@ -35,12 +35,17 @@ in-file db, to make it self contained. By default embedded jetty wil
 use port 9090. You can close sbt, and this service will still work,
 with some adjustments this can be used in production.
 
-When running from sbt, h2 database console will be here  
-http://localhost:8080/console  
-JDBC URL must be adjusted to access the database  
-jdbc:h2:mem:sqrlrcrd_com  
+In development mode, h2 console will be browser accessible at:   
+[http://localhost:9090/console](http://localhost:9090/console)  
+You may need to change port number to port given on command line when
+starting executable jar or to default 8080 used by sbt if run from sbt.
+At the h2 console login, JDBC URL must be adjusted to something like this:  
 
-Also there is a kind of up-to-date dependency collection in build.sbt
+    jdbc:h2:mem:sqrlrcrd_com
+    
+Use login name 'test' and a blank password. This can be changed by
+editing props files. Also there is a kind of up-to-date dependency
+collection in build.sbt
 
 ### Credits
 

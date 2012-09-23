@@ -17,7 +17,8 @@ code {
 </style>
 </head>
 <body>
-<div class="main">	
+<div class="main">
+	
 <h1>squeryl-record + sample DB config &amp; H2 console + jetty</h1>
 
 <p>There is embedded jetty and assembly sbt plugin for automated creation
@@ -46,7 +47,7 @@ jar, in sbt run:</p>
 <pre><code>java -Drun.mode=production -jar sqrlrcrd.com-lift-assembly-1.0.jar
 </code></pre>
 
-<p>You can give custom port number to be used by jetty like so:</p>
+<p>You can give custom port number to be used by jetty:</p>
 
 <pre><code>java -jar sqrlrcrd.com-lift-assembly-1.0.jar 8090
 </code></pre>
@@ -58,12 +59,18 @@ in-file db, to make it self contained. By default embedded jetty wil
 use port 9090. You can close sbt, and this service will still work,
 with some adjustments this can be used in production.</p>
 
-<p>When running from sbt, h2 database console will be here <br />
-http://localhost:8080/console <br />
-JDBC URL must be adjusted to access the database <br />
-jdbc:h2:mem:sqrlrcrd_com  </p>
+<p>In development mode, h2 console will be browser accessible at: <br />
+<a href="http://localhost:9090/console">http://localhost:9090/console</a> <br />
+You may need to change port number to port given on command line when
+starting executable jar or to default 8080 used by sbt if run from sbt.
+At the h2 console login, JDBC URL must be adjusted to something like this:  </p>
 
-<p>Also there is a kind of up-to-date dependency collection in build.sbt</p>
+<pre><code>jdbc:h2:mem:sqrlrcrd_com
+</code></pre>
+
+<p>Use login name 'test' and a blank password. This can be changed by
+editing props files. Also there is a kind of up-to-date dependency
+collection in build.sbt</p>
 
 <h3>Credits</h3>
 
@@ -73,6 +80,7 @@ with some minor adjustments.</p>
 
 <p>Embedded jetty configuration assembled by me with big help from Diego Medina
 and Lift mailing list participants.</p>
+
 
 </div>
 </body>

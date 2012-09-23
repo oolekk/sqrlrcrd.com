@@ -25,8 +25,8 @@ object Start extends Logger {
     System.setProperty("logback.configurationFile", {
       val propsDir = "props"
       val fileNameTail = "default.logback.xml"
-      (Box !! System.getProperty("run.mode")).dmap(
-        propsDir + "/" + fileNameTail)(propsDir + "/" + _ + "." + fileNameTail)
+      (Box !! System.getProperty("run.mode")).
+        dmap(propsDir + "/" + fileNameTail)(propsDir + "/" + _ + "." + fileNameTail)
     })
 
     /* Choose different port for each of your webapps deployed on single machine.
