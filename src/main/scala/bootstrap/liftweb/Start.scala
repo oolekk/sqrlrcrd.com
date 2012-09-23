@@ -67,7 +67,6 @@ object Start extends Logger {
     })
 
     server.setHandler(webctx)
-    info("About to start embedded jetty server using port: " + port)
     server.start
     server.join
     
