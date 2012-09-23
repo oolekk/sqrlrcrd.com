@@ -6,6 +6,7 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 import net.liftweb.util.Props
 import net.liftweb.common.Logger
+import net.liftweb.util.ControlHelpers._
 
 object Start extends Logger {
 
@@ -32,13 +33,9 @@ object Start extends Logger {
      * You may then use it in nginx proxy-pass directive, to target virtual hosts.
      * If command line numeric parameter is given, it will be used for the port number.
      * Otherwise we will attempt to read jetty.emb.port property from props file or
-     * use default 9090 as fallback. */
+     * use default 9090 as fall-back. */
     val port = {
-      try {
-        val arg0 = args(0)
-        if (arg0.toInt > 0 && arg0.toInt < 65536)
-          Some(arg0.toInt) else None
-      } catch { case _ ⇒ None }
+      tryo {args(0).toInt}.filter(portNumber => portNumber > 0 && portNumber < 65536)
     }.getOrElse(Props.getInt("jetty.emb.port", 9090))
 
     info("About to start embedded jetty server using port: " + port)
