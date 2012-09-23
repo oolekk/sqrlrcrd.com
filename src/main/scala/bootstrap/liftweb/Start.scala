@@ -12,22 +12,22 @@ object Start extends Logger {
 
   def main(args: Array[String]): Unit = {
 
-    /* 
-     * Adjust run.mode when starting the jar like so:
+    /* Basic way to start the jar is:
+     * java -jar myjarname.jar
+     * You can adjust run.mode when starting the jar like so:
      * java -Drun.mode=production -jar myjarname.jar
+     * You can also give numeric parameter to decide what port to use:
+     * java -Drun.mode=production -jar myjarname.jar 8090
      */
 
-    /* Calculate run.mode dependent path to logback configuration file.
-     * Use same naming scheme as for props files.  */
-    val logbackConfFile = {
+    /* Calculate run.mode dependent path to logback configuration file, and set
+     * system property accordingly. Use same naming scheme as for props files. */
+    System.setProperty("logback.configurationFile", {
       val propsDir = "props"
       val fileNameTail = "default.logback.xml"
-
       (Box !! System.getProperty("run.mode")).dmap(
         propsDir + "/" + fileNameTail)(propsDir + "/" + _ + "." + fileNameTail)
-    }
-    /* Set logback config file appropriately */
-    System.setProperty("logback.configurationFile", logbackConfFile)
+    })
 
     /* Choose different port for each of your webapps deployed on single machine.
      * You may then use it in nginx proxy-pass directive, to target virtual hosts.
@@ -38,12 +38,10 @@ object Start extends Logger {
       tryo { args(0).toInt }.filter(portNumber => portNumber > 0 && portNumber < 65536)
     }.getOrElse(Props.getInt("jetty.emb.port", 9090))
 
-    info("About to start embedded jetty server using port: " + port)
-
     val server = new Server(port)
     val webctx = new WebAppContext
 
-    /* Use embedded webapp dir as source of the web content. */
+    /* Use embedded webapp dir as source of content to be served. */
     val webappDirInsideJar = webctx.getClass.getClassLoader.getResource("webapp").toExternalForm
     webctx.setWar(webappDirInsideJar)
 
@@ -60,6 +58,7 @@ object Start extends Logger {
     Props.get("jetty.emb.tmpdir").foreach(dir => webctx.setTempDirectory(new File(dir)))
 
     server.setHandler(webctx)
+    info("About to start embedded jetty server using port: " + port)
     server.start
     server.join
   }

@@ -20,15 +20,20 @@ Then cd to target dir and run:
 
     java -jar sqrlrcrd.com-lift-assembly-1.0.jar
     
+You can make it run in production mode like so:
+    
+    java -Drun.mode=production -jar sqrlrcrd.com-lift-assembly-1.0.jar
+    
+You can give custom port number to be used by jetty like so:
+    
+    java -jar sqrlrcrd.com-lift-assembly-1.0.jar 8090
+     
 Your server will start from the jar. Note, you can bring this jar on your
 usb stick and make any computer with java serve it. You don't need to
 install anything else, except from maybe a database :) but you can use h2
-in-file db, to make it self contained. Access this app on port defined in
-
-    lift.bootstrap.Start.scala
-    
-Which is set to 9090 in this example. You can close sbt, and this service
-will still work -> with some adjustments this can be used in production.
+in-file db, to make it self contained. By default embedded jetty wil 
+use port 9090. You can close sbt, and this service will still work,
+with some adjustments this can be used in production.
 
 When running from sbt, h2 database console will be here  
 http://localhost:8080/console  

@@ -3,14 +3,22 @@
 <script id="jquery" src="/js/jquery-1.8.1.min.js" type="text/javascript"></script>
 <style type="text/css">
 /* <![CDATA[ */
-body{font-family:'monospace';}
+body{font-family:Consolas,"Liberation Mono",Courier,monospace;}
 .main{width:800px; text-align:justify}
+h1{font-size:1.5em}
+code {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
+    display: block;
+    margin-left: 1em;
+}
 /* ]]> */
 </style>
 </head>
 <body>
 <div class="main">	
-<h2>squeryl-record + sample DB config &amp; H2 console + jetty</h2>
+<h1>squeryl-record + sample DB config &amp; H2 console + jetty</h1>
 
 <p>There is embedded jetty and assembly sbt plugin for automated creation
 of self-serving jar package.</p>
@@ -33,16 +41,22 @@ jar, in sbt run:</p>
 <pre><code>java -jar sqrlrcrd.com-lift-assembly-1.0.jar
 </code></pre>
 
+<p>You can make it run in production mode like so:</p>
+
+<pre><code>java -Drun.mode=production -jar sqrlrcrd.com-lift-assembly-1.0.jar
+</code></pre>
+
+<p>You can give custom port number to be used by jetty like so:</p>
+
+<pre><code>java -jar sqrlrcrd.com-lift-assembly-1.0.jar 8090
+</code></pre>
+
 <p>Your server will start from the jar. Note, you can bring this jar on your
 usb stick and make any computer with java serve it. You don't need to
 install anything else, except from maybe a database :) but you can use h2
-in-file db, to make it self contained. Access this app on port defined in</p>
-
-<pre><code>lift.bootstrap.Start.scala
-</code></pre>
-
-<p>Which is set to 9090 in this example. You can close sbt, and this service
-will still work ->  with some adjustments this can be used in production.</p>
+in-file db, to make it self contained. By default embedded jetty wil 
+use port 9090. You can close sbt, and this service will still work,
+with some adjustments this can be used in production.</p>
 
 <p>When running from sbt, h2 database console will be here <br />
 http://localhost:8080/console <br />
@@ -59,6 +73,7 @@ with some minor adjustments.</p>
 
 <p>Embedded jetty configuration assembled by me with big help from Diego Medina
 and Lift mailing list participants.</p>
+
 </div>
 </body>
 </html>
