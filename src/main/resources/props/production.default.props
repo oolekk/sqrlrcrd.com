@@ -1,5 +1,6 @@
 ## Properties in this file will be read when running in PRODUCTION mode
 
+jetty.emb.port=9090
 #used by self serving embedded jetty jar - /tmp is not a good choice
 #as it gets cleaned from time to time, so using something else in production
 jetty.emb.tmpdir=/var/www/sqrlrcrd.com

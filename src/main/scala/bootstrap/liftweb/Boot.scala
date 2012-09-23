@@ -26,7 +26,6 @@ import net.liftweb.util.Vendor.valToVender
 import net.liftweb.util.LoanWrapper
 import net.liftweb.util.NamedPF
 import net.liftweb.util.Props
-import net.liftmodules.JQueryModule
 
 class Boot extends Loggable {
 
@@ -49,8 +48,6 @@ class Boot extends Loggable {
     LiftRules.maxMimeFileSize = 1024 * 1024 * 32;
     /* use jQuery framework */
     LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQueryArtifacts
-    JQueryModule.InitParam.JQuery=JQueryModule.JQuery172
-    JQueryModule.init()
     /* Show the spinny image when an Ajax call starts */
     LiftRules.ajaxStart = Full(() ⇒ LiftRules.jsArtifacts.show("ajax-loader").cmd)
     /* Make the spinny image go away when it ends */
@@ -71,8 +68,7 @@ class Boot extends Loggable {
     })
 
     /* vvvvvv DB CONNECTION AND TRANSACTION WRAPPING vvvvvv */
-
-    /* choose database type */
+	/* choose database type */
     val dbtype = Props.get("use.db", "h2");
     if (dbtype == "h2") MySchemaHelper.initSquerylRecordWithH2DB
     else if (dbtype == "mysql") MySchemaHelper.initSquerylRecordWithMySqlDB
@@ -89,9 +85,7 @@ class Boot extends Loggable {
         logger.info("\nRunMode is DEVELOPMENT @ sqrlrcrd.com\n")
         // pass paths that start with 'console' to be processed by the H2Console servlet
         if (MySchemaHelper.isUsingH2Driver) {
-          /* make db console browser-accessible in dev mode at /console 
-           * see http://www.h2database.com/html/tutorial.html#tutorial_starting_h2_console 
-           * Embedded Mode JDBC URL: jdbc:h2:mem:test User Name:test Password:test */
+          // make db console browser-accessible in dev mode at /console
           logger.info("Set up H2 db console at /console ")
           LiftRules.liftRequest.append({
             case r if (r.path.partPath match { case "console" :: _ ⇒ true case _ ⇒ false }) ⇒ false
@@ -112,7 +106,6 @@ class Boot extends Loggable {
     /* ^^^^^^ DB CONNECTION AND TRANSACTION WRAPPING ^^^^^^ */
 
     /* vvvvvv SITEMAP STUFF vvvvvv */
-
     /* uncomment to disable uniqueness check for SiteMap */
     // SiteMap.enforceUniqueLinks = false
 
@@ -128,7 +121,6 @@ class Boot extends Loggable {
 
     /* Set SiteMap. If you don't want access control for each page, comment this out */
     LiftRules.setSiteMap(SiteMap(entries: _*))
-
     /* ^^^^^^ SITEMAP STUFF ^^^^^^ */
 
   }
