@@ -31,15 +31,15 @@ You can give custom port number to be used by jetty:
 Your server will start from the jar. Note, you can bring this jar on your
 usb stick and make any computer with java serve it. You don't need to
 install anything else, except from maybe a database :) but you can use h2
-in-file db, to make it self contained. By default embedded jetty wil 
+in-file db, to make it self contained. By default embedded jetty will 
 use port 9090. You can close sbt, and this service will still work,
 with some adjustments this can be used in production.
 
 In development mode, h2 console will be browser accessible at:   
 [http://localhost:9090/console](http://localhost:9090/console)  
-You may need to change port number to port given on command line when
-starting executable jar or to default 8080 used by sbt if run from sbt.
-At the h2 console login, JDBC URL must be adjusted to something like this:  
+You may need to change port number to port given on the command line when starting
+executable jar or to default 8080 used by sbt if run from sbt. At the h2 console
+login screen, JDBC URL must be adjusted to something like this:
 
     jdbc:h2:mem:sqrlrcrd_com
     
