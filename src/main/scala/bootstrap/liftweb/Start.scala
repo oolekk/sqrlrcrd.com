@@ -5,7 +5,7 @@ import java.io.File
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 import net.liftweb.util.Props
-import net.liftweb.common.Logger
+import net.liftweb.common._
 import net.liftweb.util.ControlHelpers._
 
 object Start extends Logger {
@@ -22,9 +22,9 @@ object Start extends Logger {
     val logbackConfFile = {
       val propsDir = "props"
       val fileNameTail = "default.logback.xml"
-      val mode = System.getProperty("run.mode")
-      if (mode != null) propsDir + "/" + mode + "." + fileNameTail
-      else propsDir + "/" + fileNameTail
+
+      (Box !! System.getProperty("run.mode")).dmap(
+        propsDir + "/" + fileNameTail)(propsDir + "/" + _ + "." + fileNameTail)
     }
     /* Set logback config file appropriately */
     System.setProperty("logback.configurationFile", logbackConfFile)
@@ -35,14 +35,14 @@ object Start extends Logger {
      * Otherwise we will attempt to read jetty.emb.port property from props file or
      * use default 9090 as fall-back. */
     val port = {
-      tryo {args(0).toInt}.filter(portNumber => portNumber > 0 && portNumber < 65536)
+      tryo { args(0).toInt }.filter(portNumber => portNumber > 0 && portNumber < 65536)
     }.getOrElse(Props.getInt("jetty.emb.port", 9090))
 
     info("About to start embedded jetty server using port: " + port)
 
     val server = new Server(port)
     val webctx = new WebAppContext
-    
+
     /* Use embedded webapp dir as source of the web content. */
     val webappDirInsideJar = webctx.getClass.getClassLoader.getResource("webapp").toExternalForm
     webctx.setWar(webappDirInsideJar)
