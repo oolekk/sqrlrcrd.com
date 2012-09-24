@@ -3,7 +3,7 @@
 jetty.emb.port=9090
 #used by self serving embedded jetty jar - /tmp is not a good choice
 #as it gets cleaned from time to time, use something else in production
-jetty.emb.tmpdir=/home/olo/dev/webtmp/sqrlrcrd.com
+jetty.emb.tmpdir=/tmp/sqrlrcrd.com
 
 #session wrapper db transaction logging
 #log.dbsession=true
