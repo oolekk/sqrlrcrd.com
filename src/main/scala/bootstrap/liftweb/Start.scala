@@ -106,7 +106,6 @@ object Start extends Logger {
     resHandler.setDirectoriesListed(listDirs)
 
     val resCtxHandler = new ContextHandler()
-    /* make sure to add contextPath to your sitemap */
     resCtxHandler.setContextPath(contextPath)
     /* Enabling this will make aliases and symbolic links work,
      * which is turned off by default to avoid security risks. */
