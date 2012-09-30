@@ -1,31 +1,29 @@
 package bootstrap.liftweb
 
 import com.sqrlrcrd.model.MySchemaHelper
-
-import net.liftweb.common.Empty
-import net.liftweb.common.Full
-import net.liftweb.common.Loggable
-import net.liftweb.http.LiftRulesMocker.toLiftRules
-import net.liftweb.http.provider.HTTPRequest
-import net.liftweb.http.Html5Properties
-import net.liftweb.http.LiftRules
-import net.liftweb.http.NotFoundAsTemplate
-import net.liftweb.http.NoticeType
-import net.liftweb.http.OnDiskFileParamHolder
-import net.liftweb.http.ParsePath
-import net.liftweb.http.Req
+import net.liftweb.common._
+import net.liftweb.util.Helpers._
+import net.liftweb.util.Props
+import net.liftweb.util.NamedPF
+import net.liftweb.util.LoanWrapper
 import net.liftweb.http.S
-import net.liftweb.sitemap.Loc.LinkText.strToLinkText
-import net.liftweb.sitemap.Loc.Link
-import net.liftweb.sitemap.Loc
+import net.liftweb.http.LiftRules
+import net.liftweb.http.Html5Properties
+import net.liftweb.http.NoticeType
+import net.liftweb.http.NotFoundAsTemplate
+import net.liftweb.http.OnDiskFileParamHolder
+import net.liftweb.http.Req
+import net.liftweb.http.ParsePath
+import net.liftweb.http.PostRequest
+import net.liftweb.http.OkResponse
+import net.liftweb.http.RedirectResponse
+import net.liftweb.http.provider.HTTPRequest
 import net.liftweb.sitemap.Menu
 import net.liftweb.sitemap.SiteMap
-import net.liftweb.squerylrecord.RecordTypeMode.inTransaction
-import net.liftweb.util.Helpers.intToTimeSpanBuilder
-import net.liftweb.util.Vendor.valToVender
-import net.liftweb.util.LoanWrapper
-import net.liftweb.util.NamedPF
-import net.liftweb.util.Props
+import net.liftweb.sitemap.Loc
+import net.liftweb.sitemap.Loc.Link
+import net.liftweb.sitemap.Loc.LocGroup
+import net.liftweb.squerylrecord.RecordTypeMode._
 
 class Boot extends Loggable {
 
@@ -68,7 +66,7 @@ class Boot extends Loggable {
     })
 
     /* vvvvvv DB CONNECTION AND TRANSACTION WRAPPING vvvvvv */
-	/* choose database type */
+    /* choose database type */
     val dbtype = Props.get("use.db", "h2");
     if (dbtype == "h2") MySchemaHelper.initSquerylRecordWithH2DB
     else if (dbtype == "mysql") MySchemaHelper.initSquerylRecordWithMySqlDB
@@ -116,8 +114,7 @@ class Boot extends Loggable {
 
     val entries = List[Menu](
       indexMenu,
-      staticMenu
-    )
+      staticMenu)
 
     /* Set SiteMap. If you don't want access control for each page, comment this out */
     LiftRules.setSiteMap(SiteMap(entries: _*))

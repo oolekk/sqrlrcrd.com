@@ -1,16 +1,15 @@
 package bootstrap.liftweb
 
 import java.io.File
-
+import net.liftweb.common._
+import net.liftweb.util.Props
+import net.liftweb.util.Helpers._
 import org.eclipse.jetty.server.Server
-import org.eclipse.jetty.webapp.WebAppContext
 import org.eclipse.jetty.server.handler.ResourceHandler
 import org.eclipse.jetty.server.handler.ContextHandler
 import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.nio.SelectChannelConnector
-import net.liftweb.util.Props
-import net.liftweb.common._
-import net.liftweb.util.ControlHelpers._
+import org.eclipse.jetty.webapp.WebAppContext
 
 object Start extends Logger {
 
@@ -33,25 +32,25 @@ object Start extends Logger {
       (Box !! System.getProperty("run.mode")).
         dmap(propsDir + "/" + fileNameTail)(propsDir + "/" + _ + "." + fileNameTail)
     })
-    
+
     /* Choose different port for each of your webapps deployed on single machine.
      * You may then use it in nginx proxy-pass directive, to target virtual hosts.
      * If command line numeric parameter is given, it will be used for the port number.
      * Otherwise we will attempt to read jetty.emb.port property from props file or
      * use default 9090 as fall-back. */
     val port = {
-      tryo { args(0).toInt }.filter(portNumber => portNumber > 0 && portNumber < 65536)
+      tryo { args(0).toInt }.filter(portNumber ⇒ portNumber > 0 && portNumber < 65536)
     }.getOrElse(Props.getInt("jetty.emb.port", 9090))
-     
+
     val connector = new SelectChannelConnector()
     connector.setPort(port)
     val server = new Server()
     server.addConnector(connector)
-    
+
     val webctx = new WebAppContext
     /* Use embedded webapp dir as source of content to be served. */
-    val webappDirInsideJar = webctx.getClass.getClassLoader.getResource("webapp").toExternalForm
-    webctx.setWar(webappDirInsideJar)
+    val webappDirFromJar = webctx.getClass.getClassLoader.getResource("webapp").toExternalForm
+    webctx.setWar(webappDirFromJar)
     /* We might use use external, already existing webapp dir instead of
      * referencing the webapp dir from the jar but it's not very useful. 
      * I put it here for reference, as it may make sense under some circumstances.
@@ -61,7 +60,7 @@ object Start extends Logger {
      * from there. Often /tmp is used, but it is not always advisable, because it
      * gets cleaned-up from time to time, so you need to use other location such as
      * /var/www/sqrlrcrd.com for anything that should last. */
-    Props.get("jetty.emb.tmpdir").foreach(dir => {
+    Props.get("jetty.emb.tmpdir").foreach(dir ⇒ {
       webctx.setTempDirectory(new File(dir))
       info("USING TEMP DIRECTORY: " + webctx.getTempDirectory)
     })
@@ -69,7 +68,7 @@ object Start extends Logger {
     server.setHandler(webctx)
     server.start
     server.join
-    
+
     /* And here is a little gem, which took me much time and experimentation.
      * To serve arbitrary resource directory (may be located outside webapp dir) 
      * use code below instead of previous block. This can be indispensible if 
@@ -78,15 +77,15 @@ object Start extends Logger {
      * accessible when jar is started. For example, this is very useful to access
      * a directory containing photo gallery pictures, kept separately, where stuff
      * can easily change when new pics are uploaded. */
-  
-//    val myResHandler = makeResourceHandler("/images", "/var/img-resources", true, false)
-//    val handlerList = new HandlerList()
-//    /* IMPORTANT: order in the array matters, webctx should come last */
-//    handlerList.setHandlers(Array(myResHandler, webctx))
-//    
-//    server.setHandler(handlerList)
-//    server.start
-//    server.join
+
+    //    val myResHandler = makeResourceHandler("/images", "/var/img-resources", true, false)
+    //    val handlerList = new HandlerList()
+    //    /* IMPORTANT: order in the array matters, webctx should come last */
+    //    handlerList.setHandlers(Array(myResHandler, webctx))
+    //    
+    //    server.setHandler(handlerList)
+    //    server.start
+    //    server.join
 
   }
 
@@ -97,7 +96,7 @@ object Start extends Logger {
     contextPath: String, resourceBase: String,
     listDirs: Boolean = false, allowAliases: Boolean = false) = {
     info("MAKE RESOURCE HANDLER contextPath:%s resourceBase:%s listDirs:%s allowAliases:%s".
-        format(contextPath,resourceBase,listDirs,allowAliases))
+      format(contextPath, resourceBase, listDirs, allowAliases))
 
     val resHandler = new ResourceHandler()
     resHandler.setResourceBase(resourceBase)
